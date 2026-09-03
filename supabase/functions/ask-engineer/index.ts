@@ -1,3 +1,5 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
 // Single central configuration point for the Gemini production model.
 // Can be overridden via Supabase secret: npx supabase secrets set GEMINI_MODEL=gemini-2.5-flash
 const GEMINI_MODEL = Deno.env.get("GEMINI_MODEL") || "gemini-2.5-flash";
