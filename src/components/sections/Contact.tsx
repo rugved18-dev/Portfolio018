@@ -1,49 +1,191 @@
-import { ArrowRight, Mail } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { profile } from '@/data/portfolio';
-import { Button } from '@/components/ui/Button';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 import { useReveal } from '@/hooks/useReveal';
+import { submitContactMessage, isSupabaseConfigured } from '@/lib/supabase';
 
 export function Contact() {
   const { ref, isVisible } = useReveal();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    website: '', // Honeypot anti-spam field
+  });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic frontend check before calling handler
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setStatus('error');
+      setErrorMessage('Please complete all required fields.');
+      return;
+    }
+
+    setStatus('sending');
+    setErrorMessage('');
+
+    if (isSupabaseConfigured) {
+      const result = await submitContactMessage(formData);
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '', website: '' });
+      } else {
+        setStatus('error');
+        setErrorMessage(result.error || 'Unable to send message right now. Please try again or email directly.');
+      }
+    } else {
+      // Fallback: Trigger direct mailto link if database is unconfigured
+      window.location.href = `mailto:${profile.email}?subject=Inquiry from ${encodeURIComponent(
+        formData.name
+      )}&body=${encodeURIComponent(formData.message + '\n\nSender Email: ' + formData.email)}`;
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '', website: '' });
+    }
+  };
 
   return (
     <section id="contact" className="py-20 lg:py-28">
       <div className="container-content">
         <div
           ref={ref}
-          className={`reveal ${isVisible ? 'is-visible' : ''} mx-auto max-w-3xl text-center`}
+          className={`reveal ${isVisible ? 'is-visible' : ''} mx-auto max-w-3xl`}
         >
-          <div className="flex items-center justify-center gap-3">
-            <span className="h-px w-6 bg-accent-500" />
-            <span className="label-accent">Contact</span>
-            <span className="h-px w-6 bg-accent-500" />
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3">
+              <span className="h-px w-6 bg-accent-500" />
+              <span className="label-accent">Contact</span>
+              <span className="h-px w-6 bg-accent-500" />
+            </div>
+
+            <h2 className="mt-6 text-headline font-bold text-ink-900 text-balance">
+              Let&apos;s build something useful.
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-500">
+              Open to conversations about software engineering, opportunities, collaboration, and
+              interesting technical problems.
+            </p>
           </div>
 
-          <h2 className="mt-6 text-headline font-bold text-ink-900 text-balance">
-            Let&apos;s build something useful.
-          </h2>
+          {/* Contact Form */}
+          <div className="mt-12 rounded-2xl border border-ink-100 bg-paper-50 p-6 sm:p-8 lg:p-10 shadow-sm">
+            {status === 'success' ? (
+              <div className="py-8 text-center">
+                <CheckCircle2 className="mx-auto h-12 w-12 text-accent-500" />
+                <h3 className="mt-4 text-xl font-bold text-ink-900">Message Sent!</h3>
+                <p className="mt-2 text-sm text-ink-500">
+                  Thank you for reaching out. Rugved will get back to you as soon as possible.
+                </p>
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="mt-6 text-sm font-semibold text-accent-500 hover:text-accent-600"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Honeypot field - invisible to real visitors, trap for automated bots */}
+                <div className="hidden" aria-hidden="true" tabIndex={-1}>
+                  <label htmlFor="website">Website</label>
+                  <input
+                    id="website"
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.website}
+                    onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  />
+                </div>
 
-          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-500">
-            Open to conversations about software engineering, opportunities, collaboration, and
-            interesting technical problems.
-          </p>
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-name" className="block text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2">
+                      Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      required
+                      maxLength={100}
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full rounded-lg border border-ink-200 bg-paper-100 px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" className="block text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      required
+                      maxLength={100}
+                      placeholder="you@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full rounded-lg border border-ink-200 bg-paper-100 px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500"
+                    />
+                  </div>
+                </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button
-              href={`mailto:${profile.email}`}
-              variant="primary"
-            >
-              Get in Touch
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <a
-              href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-ink-500 transition-colors hover:text-accent-500"
-            >
-              <Mail className="h-4 w-4" />
-              {profile.email}
-            </a>
+                <div>
+                  <label htmlFor="contact-message" className="block text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    rows={4}
+                    maxLength={2000}
+                    placeholder="How can Rugved help you?"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full rounded-lg border border-ink-200 bg-paper-100 px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500 resize-y"
+                  />
+                </div>
+
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50/50 p-3 text-xs text-red-600">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                  <button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    className="inline-flex items-center gap-2 rounded-md bg-accent-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-600 disabled:opacity-50"
+                  >
+                    {status === 'sending' ? (
+                      'Sending...'
+                    ) : (
+                      <>
+                        Send Message <Send className="h-4 w-4" />
+                      </>
+                    )}
+                  </button>
+
+                  <a
+                    href={`mailto:${profile.email}`}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-ink-500 transition-colors hover:text-accent-500"
+                  >
+                    <Mail className="h-4 w-4" />
+                    Or email directly: {profile.email}
+                  </a>
+                </div>
+              </form>
+            )}
           </div>
 
           <div className="mt-10 flex items-center justify-center">

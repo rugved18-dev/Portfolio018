@@ -29,7 +29,7 @@ graph TD
     User([Website Visitor]) -->|Interacts with UI| SPA[React + Vite Frontend]
     SPA -->|Smooth Scroll / Modals| UIComponents[Sections & Components]
     SPA -->|POST /ask-engineer| SupabaseEdge[Supabase Edge Function]
-    SupabaseEdge -->|Generative AI Request| GeminiAPI[Google Gemini 2.0 Flash API]
+    SupabaseEdge -->|Generative AI Request| GeminiAPI[Google Gemini 2.5 Flash API]
     GeminiAPI -->|Streamed / Structured Response| SupabaseEdge
     SupabaseEdge -->|JSON Response| SPA
 ```
@@ -132,7 +132,7 @@ Portfolio018/
 
 ### Backend & Edge AI Services
 * **Supabase Edge Functions:** Serverless Deno runtime hosted globally at the edge.
-* **Google Gemini API (`gemini-2.0-flash`):** High-speed LLM for dynamic context-aware Q&A.
+* **Google Gemini API (`gemini-2.5-flash`):** High-speed LLM for dynamic context-aware Q&A.
 
 ---
 

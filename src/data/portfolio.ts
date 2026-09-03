@@ -9,7 +9,7 @@ export const profile = {
   description:
     'Computer Engineering student and developer building full-stack applications, backend systems, AI-powered solutions, and practical software projects.',
   email: 'rugvedsurve18@gmail.com',
-  resumeUrl: '#',
+  resumeUrl: '/resume.pdf',
   portrait: null as string | null,
   location: 'Pune, India',
 };
@@ -81,7 +81,7 @@ export const projects: Project[] = [
       'Used NestJS with Prisma and PostgreSQL to ensure strong type safety, relational integrity, and rapid query execution.',
     technologies: ['React.js', 'NestJS', 'TypeScript', 'PostgreSQL', 'Prisma', 'Apify', 'AWS S3', 'Vercel', 'Render'],
     links: {
-      github: '#',
+      github: 'https://github.com/rugved18-dev/JobSmart',
       demo: 'https://job-smaart.vercel.app/login',
     },
     layout: 'image-left',
@@ -111,7 +111,7 @@ export const projects: Project[] = [
       'Chose S3 pre-signed URLs to offload heavy file transfers from the Node.js API server directly to cloud storage.',
     technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'Prisma ORM', 'AWS S3', 'JWT', 'React.js'],
     links: {
-      github: '#',
+      github: 'https://github.com/rugved18-dev/PrintSmart',
       demo: 'https://print-smart-18.vercel.app/',
     },
     layout: 'image-right',

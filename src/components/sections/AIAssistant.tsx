@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { ArrowRight, X, ArrowUp } from 'lucide-react';
 import { askEngineer, type ChatMessage } from '@/lib/ai';
 import { suggestedQuestions, quickExploreCategories } from '@/data/ai-suggestions';
+import { projects } from '@/data/portfolio';
 
 type AIAssistantProps = {
   isOpen: boolean;
@@ -11,22 +12,22 @@ type AIAssistantProps = {
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
-const PROJECT_KEYWORDS: Record<string, string> = {
-  atlas: 'atlas',
-  insight: 'insight',
-  forge: 'forge',
-  beacon: 'beacon',
-};
-
 function detectProjectReferral(text: string): string | null {
   const lower = text.toLowerCase();
-  for (const [keyword, id] of Object.entries(PROJECT_KEYWORDS)) {
-    if (lower.includes(keyword)) return id;
+  
+  for (const project of projects) {
+    if (lower.includes(project.id) || lower.includes(project.title.toLowerCase())) {
+      return project.id;
+    }
   }
-  if (lower.includes('project 01')) return 'atlas';
-  if (lower.includes('project 02')) return 'insight';
-  if (lower.includes('project 03')) return 'forge';
-  if (lower.includes('project 04')) return 'beacon';
+  
+  if (lower.includes('jobsmart') || lower.includes('job discovery')) return 'jobsmart';
+  if (lower.includes('printsmart') || lower.includes('printing')) return 'printsmart';
+  if (lower.includes('batchmate') || lower.includes('textbook')) return 'batchmate';
+  if (lower.includes('predictive') || lower.includes('sensor')) return 'predictive-maintenance';
+  if (lower.includes('parser') || lower.includes('insurance')) return 'insurance-parser';
+  if (lower.includes('hospital') || lower.includes('mainframe')) return 'hospital-management';
+
   return null;
 }
 
@@ -70,6 +71,12 @@ export function AIAssistant({ isOpen, onClose, onViewProject }: AIAssistantProps
     async (question: string) => {
       const trimmed = question.trim();
       if (!trimmed || status === 'loading') return;
+
+      if (trimmed.length > 500) {
+        setErrorMsg('Question is too long. Please keep it under 500 characters.');
+        setStatus('error');
+        return;
+      }
 
       setInput('');
       setStatus('loading');
@@ -259,7 +266,7 @@ export function AIAssistant({ isOpen, onClose, onViewProject }: AIAssistantProps
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              maxLength={1000}
+              maxLength={500}
               placeholder="Ask something about my work..."
               className="flex-1 rounded-lg border border-ink-200 bg-paper-100 px-4 py-3 text-sm text-ink-800 placeholder:text-ink-400 focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500"
               autoComplete="off"
@@ -290,7 +297,7 @@ function FormattedResponse({ text, onViewProject }: { text: string; onViewProjec
           onClick={() => onViewProject(text)}
           className="group mt-3 inline-flex items-center gap-1.5 rounded-md border border-accent-500 px-3 py-1.5 text-xs font-medium text-accent-500 transition-colors hover:bg-accent-500 hover:text-white"
         >
-          View Project
+          View Case Study
           <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
         </button>
       )}
