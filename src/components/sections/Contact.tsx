@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
-import { profile } from '@/data/portfolio';
+import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 import { useReveal } from '@/hooks/useReveal';
 import { submitContactMessage } from '@/lib/supabase';
@@ -29,15 +28,15 @@ export function Contact() {
     setStatus('sending');
     setErrorMessage('');
 
-    // Attempt database insert
+    // Execute direct Supabase database INSERT
     const result = await submitContactMessage(formData);
-    
+
     if (result.success) {
-      // ONLY show success when Supabase INSERT completes cleanly
+      // ONLY show success when Supabase INSERT confirms clean execution
       setStatus('success');
       setFormData({ name: '', email: '', message: '', website: '' });
     } else {
-      // Show error state when INSERT fails or database is unconfigured
+      // Show error state when database INSERT fails
       setStatus('error');
       setErrorMessage(
         result.error || 'Failed to send message to database. Please check Supabase setup.'
@@ -157,7 +156,7 @@ export function Contact() {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                <div className="pt-2">
                   <button
                     type="submit"
                     disabled={status === 'sending'}
@@ -171,14 +170,6 @@ export function Contact() {
                       </>
                     )}
                   </button>
-
-                  <a
-                    href={`mailto:${profile.email}`}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-ink-500 transition-colors hover:text-accent-500"
-                  >
-                    <Mail className="h-4 w-4" />
-                    Or email directly: {profile.email}
-                  </a>
                 </div>
               </form>
             )}
