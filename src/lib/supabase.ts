@@ -6,7 +6,8 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&
     supabaseAnonKey &&
-    supabaseUrl !== 'https://your-supabase-project.supabase.co'
+    supabaseUrl !== 'https://your-supabase-project.supabase.co' &&
+    supabaseAnonKey !== 'your-supabase-anon-key-here'
 );
 
 export const supabase = isSupabaseConfigured
@@ -29,7 +30,6 @@ export async function submitContactMessage(
   // 1. Honeypot check: if honeypot field is filled, silently reject bot submission
   if (submission.website && submission.website.trim().length > 0) {
     console.warn('Bot submission blocked via honeypot.');
-    // Pretend success so bots do not retry with modified scripts
     return { success: true };
   }
 
@@ -72,41 +72,44 @@ export async function submitContactMessage(
     }
   }
 
-  // 6. Submit to Supabase database if configured
-  if (!supabase) {
+  // 6. Check Supabase Configuration
+  if (!supabase || !isSupabaseConfigured) {
+    const missingVar = !supabaseUrl ? 'VITE_SUPABASE_URL' : 'VITE_SUPABASE_ANON_KEY';
+    console.error(`Supabase connection failed: ${missingVar} is missing or set to placeholder.`);
     return {
       success: false,
-      error: 'Database connection is unconfigured. Please use direct email.',
+      error: `Database is not configured. Please set ${missingVar} in Vercel project environment variables.`,
     };
   }
 
+  // 7. Perform Supabase Database INSERT
   try {
     const { error } = await supabase.from('contact_submissions').insert([
       {
         name,
         email,
         message,
-        created_at: new Date().toISOString(),
       },
     ]);
 
     if (error) {
-      console.error('Supabase DB error (masked from user):', error);
+      console.error('Supabase Database INSERT error:', error.message, error.details, error.hint, error.code, error);
       return {
         success: false,
-        error: 'Unable to send message right now. Please try again or email directly.',
+        error: `Database submission failed: ${error.message || 'Check table schema and RLS policies.'}`,
       };
     }
 
-    // Record submission timestamp for anti-spam rate limiting
+    // Record submission timestamp for rate limiting
     localStorage.setItem('last_contact_submission', Date.now().toString());
 
     return { success: true };
   } catch (err) {
-    console.error('Unexpected error during contact submission:', err);
+    console.error('Unexpected error during contact form database submission:', err);
+    const msg = err instanceof Error ? err.message : 'An unexpected network error occurred.';
     return {
       success: false,
-      error: 'Unable to send message right now. Please try again or email directly.',
+      error: `Failed to submit message: ${msg}`,
     };
   }
 }

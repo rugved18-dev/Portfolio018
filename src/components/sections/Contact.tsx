@@ -3,7 +3,7 @@ import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { profile } from '@/data/portfolio';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 import { useReveal } from '@/hooks/useReveal';
-import { submitContactMessage, isSupabaseConfigured } from '@/lib/supabase';
+import { submitContactMessage } from '@/lib/supabase';
 
 export function Contact() {
   const { ref, isVisible } = useReveal();
@@ -20,7 +20,6 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic frontend check before calling handler
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus('error');
       setErrorMessage('Please complete all required fields.');
@@ -30,22 +29,19 @@ export function Contact() {
     setStatus('sending');
     setErrorMessage('');
 
-    if (isSupabaseConfigured) {
-      const result = await submitContactMessage(formData);
-      if (result.success) {
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '', website: '' });
-      } else {
-        setStatus('error');
-        setErrorMessage(result.error || 'Unable to send message right now. Please try again or email directly.');
-      }
-    } else {
-      // Fallback: Trigger direct mailto link if database is unconfigured
-      window.location.href = `mailto:${profile.email}?subject=Inquiry from ${encodeURIComponent(
-        formData.name
-      )}&body=${encodeURIComponent(formData.message + '\n\nSender Email: ' + formData.email)}`;
+    // Attempt database insert
+    const result = await submitContactMessage(formData);
+    
+    if (result.success) {
+      // ONLY show success when Supabase INSERT completes cleanly
       setStatus('success');
       setFormData({ name: '', email: '', message: '', website: '' });
+    } else {
+      // Show error state when INSERT fails or database is unconfigured
+      setStatus('error');
+      setErrorMessage(
+        result.error || 'Failed to send message to database. Please check Supabase setup.'
+      );
     }
   };
 
