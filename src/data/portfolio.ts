@@ -10,7 +10,7 @@ export const profile = {
     'Computer Engineering student and developer building full-stack applications, backend systems, AI-powered solutions, and practical software projects.',
   email: 'rugvedsurve18@gmail.com',
   resumeUrl: '/resume.pdf',
-  portrait: null as string | null,
+  portrait: '/portrait.png',
   location: 'Pune, India',
 };
 

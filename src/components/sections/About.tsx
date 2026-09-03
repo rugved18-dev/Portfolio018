@@ -65,10 +65,20 @@ export function About() {
                 </div>
               </div>
 
-              {/* Portrait placeholder */}
-              <div className="mt-6 flex h-32 items-center justify-center rounded-lg border border-dashed border-ink-200 bg-paper-100">
-                <span className="label-meta">Portrait placeholder</span>
-              </div>
+              {/* Profile Portrait */}
+              {profile.portrait ? (
+                <div className="mt-6 overflow-hidden rounded-xl border border-ink-100 bg-paper-100 shadow-sm">
+                  <img
+                    src={profile.portrait}
+                    alt={profile.name}
+                    className="h-72 w-full object-cover object-top sm:h-80 lg:h-96"
+                  />
+                </div>
+              ) : (
+                <div className="mt-6 flex h-32 items-center justify-center rounded-lg border border-dashed border-ink-200 bg-paper-100">
+                  <span className="label-meta">Portrait placeholder</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
