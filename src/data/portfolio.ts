@@ -58,6 +58,45 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: 'cinebuddies',
+    number: '07',
+    category: 'Full Stack & Real-Time',
+    title: 'CineBuddies',
+    shortDescription:
+      'A real-time multiplayer platform that eliminates movie night decision paralysis. Groups join a shared room, submit genre and rating preferences, and vote on dynamically curated TMDB recommendations to reach a mathematical consensus.',
+    problem:
+      'Groups can spend more time deciding what to watch than enjoying movie night, especially when members have different tastes.',
+    context:
+      'A shared-room movie selection platform where groups use 6-character room codes to join, share preferences, and vote on recommendations.',
+    role: 'Full Stack Developer — built the React frontend and Spring Boot backend, integrating Google OAuth and TMDB movie data.',
+    approach:
+      'Built with React 19, Spring Boot 3, and Java 21, using PostgreSQL for persistence and TMDB API data to curate movie candidates.',
+    challenge:
+      'Finding recommendations that account for overlapping genre interests, rating thresholds, and differences in group taste.',
+    solution:
+      'Engineered a group taste analysis algorithm to identify genre overlaps, apply rating thresholds, and surface conflicts among users before voting.',
+    outcome:
+      'Deployed the frontend on Vercel and the containerized Java backend and PostgreSQL database on Render.',
+    engineeringDecision:
+      'Combined group-level taste analysis with live TMDB recommendations so voting starts with candidates tailored to the room’s preferences.',
+    technologies: [
+      'React 19',
+      'Spring Boot 3',
+      'Java 21',
+      'PostgreSQL',
+      'Tailwind CSS v4',
+      'Google OAuth',
+      'TMDB API',
+      'Vercel',
+      'Render',
+    ],
+    links: {
+      demo: 'https://cine-buddies.vercel.app',
+    },
+    layout: 'image-left',
+    visual: { type: 'dashboard', label: 'CineBuddies Movie Room' },
+  },
+  {
     id: 'jobsmart',
     number: '01',
     category: 'AI & Full Stack',
@@ -233,7 +272,8 @@ export const projects: Project[] = [
     },
     layout: 'compact',
     visual: { type: 'dashboard', label: 'Hospital Records DB' },
-  },
+  }
+  
 ];
 
 export const engineeringProcess = [
