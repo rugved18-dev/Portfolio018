@@ -311,15 +311,19 @@ export type TechGroup = {
 export const techStack: TechGroup[] = [
   {
     category: 'Languages',
-    items: ['Java', 'JavaScript', 'TypeScript', 'Python', 'COBOL', 'SQL'],
+    items: ['Java 21', 'JavaScript', 'TypeScript', 'Python', 'COBOL', 'SQL'],
   },
   {
     category: 'Frontend',
-    items: ['React.js', 'Vite', 'HTML5', 'CSS3', 'Tailwind CSS', 'TanStack'],
+    items: ['React 19', 'Vite', 'HTML5', 'CSS3', 'Tailwind CSS v4', 'TanStack'],
   },
   {
     category: 'Backend',
-    items: ['Node.js', 'Express.js', 'Nest.js', 'Flask', 'FastAPI'],
+    items: ['Spring Boot 3', 'Node.js', 'Express.js', 'Nest.js', 'Flask', 'FastAPI'],
+  },
+  {
+    category: 'APIs & Integrations',
+    items: ['Google OAuth', 'TMDB API'],
   },
   {
     category: 'Infrastructure & Cloud',
@@ -354,11 +358,20 @@ export type TimelineEntry = {
 
 export const timeline: TimelineEntry[] = [
   {
+    id: 'exp-2',
+    type: 'experience',
+    role: 'Full-Stack AI Developer Intern',
+    organization: 'Omnevu.com',
+    date: 'Sep. 2026 — Present',
+    description:
+      'Building full-stack product features at Omnevu.com, integrating AI capabilities into web application workflows across frontend and backend services, and supporting ongoing product development.',
+  },
+  {
     id: 'exp-1',
     type: 'experience',
     role: 'Backend Developer',
     organization: 'BasicBrain / Mahant Enterprises',
-    date: 'May 2026 — Present',
+    date: 'May 2026 — Aug. 2026',
     description:
       'Engineered cloud storage and backend workflows using AWS S3 and Supabase PostgreSQL. Supported multi-tenant order processing, pricing operations, transactional data integrity, A/B testing, and production SaaS stability.',
     technologies: ['AWS S3', 'PostgreSQL', 'Supabase', 'Backend', 'SaaS', 'A/B Testing'],
