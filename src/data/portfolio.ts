@@ -369,7 +369,7 @@ export const timeline: TimelineEntry[] = [
   {
     id: 'exp-1',
     type: 'experience',
-    role: 'Backend Developer',
+    role: 'Backend Developer Intern',
     organization: 'BasicBrain / Mahant Enterprises',
     date: 'May 2026 — Aug. 2026',
     description:

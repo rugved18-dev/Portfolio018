@@ -106,7 +106,7 @@ Tech Stack & Skills:
 - AI & ML: XGBoost, TensorFlow, Keras, Scikit-learn, Pandas, NumPy, SciPy
 
 Experience:
-- Backend Developer at BasicBrain / Mahant Enterprises (May 2026 — Present): Engineered cloud storage and backend workflows using AWS S3 and Supabase PostgreSQL.
+- Backend Developer Intern at BasicBrain / Mahant Enterprises (May 2026 — Present): Engineered cloud storage and backend workflows using AWS S3 and Supabase PostgreSQL.
 
 Education:
 - B.Tech, Computer Engineering at Vishwakarma Institute of Information Technology (V.I.I.T.), Pune (Aug 2023 — Present) | CGPA 8.45 / 10
