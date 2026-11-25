@@ -3,7 +3,7 @@
 export const profile = {
   name: 'Rugved Surve',
   monogram: 'R',
-  role: 'AI Engineer & Full Stack Developer',
+  role: 'Full Stack Developer & AI Engineer',
   tagline: 'I build software that solves real problems.',
   eyebrow: 'AI Engineering · Full-Stack Development',
   description:
@@ -426,13 +426,12 @@ export const timeline: TimelineEntry[] = [
 ];
 
 export const portfolioMetrics = [
-  { value: '6+', label: 'Years building' },
-  { value: '34', label: 'Products shipped' },
+  { value: '1+', label: 'Years building' },
+  { value: '5+', label: 'Products shipped' },
   { value: '12M', label: 'Requests served / mo' },
   { value: '98%', label: 'Lighthouse median' },
-  { value: '2,400+', label: 'GitHub stars' },
+  { value: '1,800+', label: 'GitHub stars' },
   { value: '18', label: 'Talks & workshops' },
-  { value: '5', label: 'Hackathons won' },
 ];
 
 export const socialLinks = [

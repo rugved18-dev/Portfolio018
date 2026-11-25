@@ -58,7 +58,7 @@ PORTFOLIO CONTEXT:
 
 Profile:
 - Name: Rugved Surve
-- Role: AI Engineer & Full Stack Developer
+- Role: Full Stack Developer & AI Engineer
 - Location: Pune, India
 - Tagline: I build software that solves real problems.
 - Description: Computer Engineering student and developer building full-stack applications, backend systems, AI-powered solutions, and practical software projects.
