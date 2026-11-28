@@ -50,19 +50,6 @@ export function About() {
                   <span className="label-meta text-ink-300">Location</span>
                   <p className="mt-1 text-sm font-medium text-ink-800">{profile.location}</p>
                 </div>
-                <div>
-                  <span className="label-meta text-ink-300">Focus</span>
-                  <p className="mt-1 text-sm font-medium text-ink-800">
-                    Full-Stack Development, AI, ML, and Cloud Computing
-                  </p>
-                </div>
-                <div>
-                  <span className="label-meta text-ink-300">Status</span>
-                  <p className="mt-1 flex items-center gap-2 text-sm font-medium text-ink-800">
-                    <span className="h-2 w-2 rounded-full bg-accent-500 animate-pulse" />
-                    Open for opportunities with a focus on AI, ML, and Full-Stack Development
-                  </p>
-                </div>
               </div>
 
               {/* Profile Portrait */}

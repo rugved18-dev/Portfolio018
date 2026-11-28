@@ -55,7 +55,17 @@ function TimelineItem({ entry }: { entry: TimelineEntry }) {
           <span className="font-mono text-xs text-ink-400">{entry.date}</span>
         </div>
         <p className="text-sm font-medium text-accent-500">{entry.organization}</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{entry.description}</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-500">
+          {entry.highlights?.length
+            ? entry.description.split(new RegExp(`(${entry.highlights.map((value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`)).map((part, index) =>
+                entry.highlights?.includes(part) ? (
+                  <strong key={`${part}-${index}`} className="font-bold text-ink-800">{part}</strong>
+                ) : (
+                  part
+                ),
+              )
+            : entry.description}
+        </p>
         {entry.link && (
           <a
             href={entry.link}

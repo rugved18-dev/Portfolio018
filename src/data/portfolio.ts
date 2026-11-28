@@ -357,6 +357,7 @@ export type TimelineEntry = {
   date: string;
   description: string;
   technologies?: string[];
+  highlights?: string[];
   link?: string;
 };
 
@@ -369,6 +370,7 @@ export const timeline: TimelineEntry[] = [
     date: 'Sep. 2026 — Present',
     description:
       'Building full-stack product features at Omnevu.com, integrating AI capabilities into web application workflows across frontend and backend services, and supporting ongoing product development.',
+    technologies: ['Firebase', 'React 19', 'Vite', 'TypeScript', 'Google Cloud Console', 'GitLab', 'Full-Stack', 'AI Integration'],
   },
   {
     id: 'exp-1',
@@ -388,6 +390,7 @@ export const timeline: TimelineEntry[] = [
     date: 'Aug. 2023 — Present',
     description:
       'Current CGPA: 8.45 / 10. Core focus on computer engineering principles, backend systems, machine learning, and database management.',
+    highlights: ['8.45 / 10'],
   },
   {
     id: 'edu-2',
@@ -397,6 +400,7 @@ export const timeline: TimelineEntry[] = [
     date: '2021 — 2023',
     description:
       'Completed Higher Secondary Certificate (HSC) with 68.67%.',
+    highlights: ['68.67%'],
   },
   {
     id: 'edu-3',
@@ -406,6 +410,7 @@ export const timeline: TimelineEntry[] = [
     date: '[START YEAR] — 2021',
     description:
       'Completed Secondary School Certificate (SSC) with 83.60%.',
+    highlights: ['83.60%'],
   },
   {
     id: 'cert-1',
