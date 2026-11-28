@@ -334,15 +334,19 @@ export const techStack: TechGroup[] = [
     items: ['MongoDB', 'MongoDB Atlas', 'MySQL', 'IBM DB2', 'PostgreSQL'],
   },
   {
-    category: 'AI & Machine Learning',
+    category: 'Machine Learning',
     items: ['XGBoost', 'TensorFlow', 'Keras', 'Scikit-learn', 'Pandas', 'NumPy', 'SciPy'],
+  },
+  {
+    category: 'AI',
+    items: ['Prompt Engineering', 'LLMs', 'Generative AI', 'RAG', 'Agent Tooling'],
   },
 ];
 
 export const aboutParagraphs = [
-  'Started writing software to understand how things worked. Today, I work at the intersection of applied machine learning, backend systems, and product design.',
-  'I build retrieval pipelines, agent tooling, and front-ends that make complex systems legible to real people. I value latency budgets, type safety, motion curves, and precise typography.',
-  'My engineering philosophy is simple: Details are not decoration; they are the product.',
+  'I am a Computer Engineering student and Full-Stack & AI Engineer who enjoys turning complex problems into practical, reliable products. My work spans React and TypeScript frontends, Spring Boot and Node.js backends, relational databases, cloud infrastructure, and applied machine learning.',
+  'I have built and deployed products including JobSmart for intelligent job discovery, CineBuddies for real-time group movie selection, PrintSmart for digital printing workflows, and a predictive maintenance system for industrial sensor data. Across these projects, I focus on thoughtful system design, secure integrations, measurable performance, and experiences that remain simple for users.',
+  'My experience includes backend development for multi-tenant SaaS workflows at BasicBrain / Mahant Enterprises and integrating AI capabilities into full-stack product features at Omnevu.com. I value clean APIs, maintainable code, strong data integrity, clear trade-offs, and continuous feedback—not just adding features, but building software that solves a real problem well.',
 ];
 
 export type TimelineEntry = {
